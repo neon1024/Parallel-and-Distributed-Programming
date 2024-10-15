@@ -1,4 +1,4 @@
-class Data:
+class Inventory:
     def __init__(self):
         self.__money = 0
         self.__product_quantity = {}

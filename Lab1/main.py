@@ -1,4 +1,5 @@
-from Data import Data
+from Inventory import Inventory
+from Product import Product
 
 
 def print_task():
@@ -19,10 +20,48 @@ def print_task():
     print("Two sales involving distinct products must be able to update their quantities independently (without having to wait for the same mutex).")
 
 
+def read_products(inventory):
+    NAME = 0
+    PRICE = 1
+
+    while True:
+        try:
+            filename = input("products filename: ")
+
+            with open(filename) as file:
+                line = file.readline()
+
+                while line:
+                    tokens = line.split(";")
+
+                    name = tokens[NAME]
+                    price = tokens[PRICE]
+
+                    print(name, price)
+
+                    product = Product(name, price)
+
+                    if name in inventory.product_quantity.keys():
+                        inventory.product_quantity[name] += 1
+                    else:
+                        inventory.product_quantity[name] = 1
+
+                    line = file.readline()
+
+            break
+
+        except FileNotFoundError:
+            print("[!] The file doesn't exist. Try again.")
+
+
 def main():
     print_task()
 
-    data = Data()
+    inventory = Inventory()
+
+    read_products(inventory)
+
+    print(inventory.product_quantity)
 
 
 if __name__ == "__main__":
