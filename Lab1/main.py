@@ -1,6 +1,5 @@
 import random
 import threading
-from time import sleep
 
 from Bill import Bill
 from Inventory import Inventory
@@ -25,7 +24,7 @@ def read_products(inventory):
 
     while True:
         try:
-            filename = input("products filename: ")
+            filename = input("Products filename: ")
 
             with open(filename) as file:
                 line = file.readline()
@@ -39,8 +38,6 @@ def read_products(inventory):
                     inventory.set_quantity(name)
 
                     inventory.set_price(name, price)
-
-                    inventory.earnings += price
 
                     line = file.readline()
 
@@ -74,19 +71,19 @@ def sell_operation(args):
     # that is withing the limits
     product_to_sell, quantity_to_sell = choose_a_random_product_to_sell(inventory)
 
-    mutex.acquire()
-    # remove the amount of products to sell from the inventory
-    inventory.set_quantity(product_to_sell, -quantity_to_sell)
+    with mutex:
+        # remove the amount of products to sell from the inventory
+        inventory.set_quantity(product_to_sell, -quantity_to_sell)
 
-    # create the bill
-    bill = Bill()
-    bill.add_transaction(product_to_sell, inventory.get_price(product_to_sell), quantity_to_sell)
+        # create the bill
+        bill = Bill()
 
-    inventory.add_bill(bill)
+        bill.add_transaction(product_to_sell, inventory.get_price(product_to_sell), quantity_to_sell)
 
-    # update the earnings
-    inventory.earnings += inventory.get_price(product_to_sell)*quantity_to_sell
-    mutex.release()
+        inventory.add_bill(bill)
+
+        # update the earnings
+        inventory.earnings += inventory.get_price(product_to_sell)*quantity_to_sell
 
 
 def inventory_check(inventory):

@@ -31,7 +31,7 @@ class Inventory:
         if product in self.__product_quantity.keys():
             self.__product_quantity[product] += quantity
         else:
-            self.__product_quantity[product] = quantity if quantity >= 0 else 0
+            self.__product_quantity[product] = quantity
 
     def get_price(self, product):
         if product in self.__product_price.keys():
