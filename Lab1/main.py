@@ -60,19 +60,18 @@ def sell_operation(args):
     if not product_to_sell or not quantity_to_sell:
         return
 
-    with mutex:
-        # remove the amount of products to sell from the inventory
-        inventory.set_quantity(product_to_sell, -quantity_to_sell)
+    # remove the amount of products to sell from the inventory
+    inventory.set_quantity(product_to_sell, -quantity_to_sell)
 
-        # create the bill
-        bill = Bill()
+    # create the bill
+    bill = Bill()
 
-        bill.add_transaction(product_to_sell, inventory.get_price(product_to_sell), quantity_to_sell)
+    bill.add_transaction(product_to_sell, inventory.get_price(product_to_sell), quantity_to_sell)
 
-        inventory.add_bill(bill)
+    inventory.add_bill(bill)
 
-        # update the earnings
-        inventory.earnings += inventory.get_price(product_to_sell)*quantity_to_sell
+    # update the earnings
+    inventory.earnings += inventory.get_price(product_to_sell)*quantity_to_sell
 
 
 def inventory_check(args):
@@ -83,7 +82,7 @@ def inventory_check(args):
     stop_event = args[STOP_EVENT]
 
     while not stop_event.is_set():
-        sleep(1)
+        sleep(2)
 
         # Compute total sales based on bills
         total_sales = 0
@@ -150,26 +149,26 @@ def main():
 
     read_products(inventory)
 
-    # create a sync mechanism
-    mutex = threading.Lock()
-
-    # initialize the thread that does the inventory check
-    inventory_check_thread, stop_event = inventory_check_thread_work(inventory)
-
     maximum_number_of_threads = int(input("Maximum number of threads allowed: "))
 
     number_of_threads = random.randint(1, maximum_number_of_threads)
 
     threads = []
 
+    # create a sync mechanism
+    mutex = threading.Lock()
+
     # create the threads
     for _ in range(number_of_threads):
         threads.append(threading.Thread(target=sell_operation, args=([mutex, inventory],)))
-        sleep(1)
+
+    # initialize and start the thread that does the inventory check
+    inventory_check_thread, stop_event = inventory_check_thread_work(inventory)
 
     # start all threads
     for thread in threads:
         thread.start()
+        sleep(1)
 
     # end all threads
     for thread in threads:
