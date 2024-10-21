@@ -9,4 +9,10 @@ class Bill:
         else:
             self.__product_quantity[name] = quantity
 
-        self.__total += cost
+        self.__total += cost*quantity
+
+    def get_total(self):
+        return self.__total
+
+    def get_products_sold(self):
+        return self.__product_quantity
