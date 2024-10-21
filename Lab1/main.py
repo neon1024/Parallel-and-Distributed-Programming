@@ -55,26 +55,9 @@ def sell_operation(args):
     mutex = args[MUTEX]
     inventory = args[INVENTORY]
 
-    # running concurrently across multiple threads
-    # each sell decreases the amount of products that are sold,
-    # increases the amount of earnings and adds a bill to the record
-
-    # What?
-    # in a sell operation, one or more products are being sold
-    # either the same product or different ones are sold
-    # the money are added to the total earnings and to the bill
-    # the products sold are removed from the inventory and added
-    # to the bill
-
-    # How?
-    # we must pick randomly one or more products to sell
-    # for each product, its quantity to be sold, a random number
-    # that is withing the limits
-    sleep(10)
-
     product_to_sell, quantity_to_sell = choose_a_random_product_to_sell(inventory)
 
-    if not product_to_sell and not quantity_to_sell:
+    if not product_to_sell or not quantity_to_sell:
         return
 
     with mutex:
@@ -99,7 +82,7 @@ def inventory_check(args):
     inventory = args[INVENTORY]
     stop_event = args[STOP_EVENT]
 
-    while not stop_event:
+    while not stop_event.is_set():
         sleep(1)
 
         # Compute total sales based on bills
@@ -125,6 +108,15 @@ def inventory_check(args):
         print(f"Actual earnings: {inventory.earnings}")
 
         assert total_sales == inventory.earnings, "[!] Earnings mismatch!"
+
+
+def inventory_check_thread_work(inventory):
+    stop_event = threading.Event()
+
+    thread = threading.Thread(target=inventory_check, args=([inventory, stop_event],))
+    thread.start()
+
+    return thread, stop_event
 
 
 def choose_a_random_product_to_sell(inventory):
@@ -161,6 +153,9 @@ def main():
     # create a sync mechanism
     mutex = threading.Lock()
 
+    # initialize the thread that does the inventory check
+    inventory_check_thread, stop_event = inventory_check_thread_work(inventory)
+
     maximum_number_of_threads = int(input("Maximum number of threads allowed: "))
 
     number_of_threads = random.randint(1, maximum_number_of_threads)
@@ -170,6 +165,7 @@ def main():
     # create the threads
     for _ in range(number_of_threads):
         threads.append(threading.Thread(target=sell_operation, args=([mutex, inventory],)))
+        sleep(1)
 
     # start all threads
     for thread in threads:
@@ -178,6 +174,10 @@ def main():
     # end all threads
     for thread in threads:
         thread.join()
+
+    stop_event.set()
+
+    inventory_check_thread.join()
 
     print("Remaining products:")
     for product in inventory.get_products():
