@@ -81,6 +81,7 @@ def inventory_check(args):
     inventory = args[INVENTORY]
     stop_event = args[STOP_EVENT]
 
+    # TODO condition variable OR lock the transactions when performing a check
     while not stop_event.is_set():
         sleep(2)
 
@@ -119,14 +120,6 @@ def inventory_check_thread_work(inventory):
 
 
 def choose_a_random_product_to_sell(inventory):
-    """
-    - Returns a pair of type [str, int]
-    - The pair represents the product to sell
-    and the amount to sell
-    - The product to sell and the amount to sell
-    are randomly chosen
-    """
-
     # filter products with quantities greater than 0
     available_products = [product for product in inventory.get_products() if inventory.get_quantity(product) > 0]
 
