@@ -1,5 +1,6 @@
 import random
 import threading
+from time import sleep
 
 from Bill import Bill
 from Inventory import Inventory
@@ -69,7 +70,12 @@ def sell_operation(args):
     # we must pick randomly one or more products to sell
     # for each product, its quantity to be sold, a random number
     # that is withing the limits
+    sleep(10)
+
     product_to_sell, quantity_to_sell = choose_a_random_product_to_sell(inventory)
+
+    if not product_to_sell and not quantity_to_sell:
+        return
 
     with mutex:
         # remove the amount of products to sell from the inventory
@@ -86,30 +92,39 @@ def sell_operation(args):
         inventory.earnings += inventory.get_price(product_to_sell)*quantity_to_sell
 
 
-def inventory_check(inventory):
-    # Compute total sales based on bills
-    total_sales = 0
-    product_sold_count = {}
+def inventory_check(args):
+    INVENTORY = 0
+    STOP_EVENT = 1
 
-    for bill in inventory.get_bills():
-        total_sales += bill.get_total()
+    inventory = args[INVENTORY]
+    stop_event = args[STOP_EVENT]
 
-        for product, quantity in bill.get_products_sold().items():
-            if product in product_sold_count:
-                product_sold_count[product] += quantity
-            else:
-                product_sold_count[product] = quantity
+    while not stop_event:
+        sleep(1)
 
-    # Compare product counts in bills vs remaining inventory
-    for product, sold_quantity in product_sold_count.items():
-        initial_quantity = inventory.get_quantity(product) + sold_quantity  # Initial = remaining + sold
-        print(f"Product: {product}, Initial: {initial_quantity}, Sold: {sold_quantity}, Remaining: {inventory.get_quantity(product)}")
+        # Compute total sales based on bills
+        total_sales = 0
+        product_sold_count = {}
 
-    # Check total earnings
-    print(f"Total earnings calculated from bills: {total_sales}")
-    print(f"Actual earnings: {inventory.earnings}")
+        for bill in inventory.get_bills():
+            total_sales += bill.get_total()
 
-    assert total_sales == inventory.earnings, "[!] Earnings mismatch!"
+            for product, quantity in bill.get_products_sold().items():
+                if product in product_sold_count:
+                    product_sold_count[product] += quantity
+                else:
+                    product_sold_count[product] = quantity
+
+        # Compare product counts in bills vs remaining inventory
+        for product, sold_quantity in product_sold_count.items():
+            initial_quantity = inventory.get_quantity(product) + sold_quantity  # Initial = remaining + sold
+            print(f"Product: {product}, Initial: {initial_quantity}, Sold: {sold_quantity}, Remaining: {inventory.get_quantity(product)}")
+
+        # Check total earnings
+        print(f"Total earnings calculated from bills: {total_sales}")
+        print(f"Actual earnings: {inventory.earnings}")
+
+        assert total_sales == inventory.earnings, "[!] Earnings mismatch!"
 
 
 def choose_a_random_product_to_sell(inventory):
@@ -125,7 +140,7 @@ def choose_a_random_product_to_sell(inventory):
     available_products = [product for product in inventory.get_products() if inventory.get_quantity(product) > 0]
 
     if not available_products:
-        raise ValueError("No products with available stock to sell.")
+        return None, None
 
     # choose a random product from the available ones
     chosen_product = random.choice(available_products)
@@ -167,8 +182,6 @@ def main():
     print("Remaining products:")
     for product in inventory.get_products():
         print(product, inventory.get_quantity(product))
-
-    inventory_check(inventory)
 
 
 if __name__ == "__main__":
