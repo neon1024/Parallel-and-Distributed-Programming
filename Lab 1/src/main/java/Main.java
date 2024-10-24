@@ -100,6 +100,7 @@ public class Main {
         String productToSell;
         int quantityToSell;
 
+        // move the mutex at the bill operations: addTransactions, addBill, addEarnings
         mutex.lock();
         try {
             Map.Entry<String, Integer> productEntry = chooseRandomProductToSell(inventory);
