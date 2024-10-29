@@ -12,13 +12,15 @@ public class Main {
 
         readProducts(inventory);
 
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Maximum number of threads allowed: ");
 
+        Scanner scanner = new Scanner(System.in);
+
         int maximumNumberOfThreads = scanner.nextInt();
+
         scanner.close();
 
-        int numberOfThreads = new Random().nextInt(maximumNumberOfThreads);
+        int numberOfThreads = new Random().nextInt(maximumNumberOfThreads + 1);
 
         List<Thread> threads = new ArrayList<>();
 
@@ -112,6 +114,7 @@ public class Main {
             inventory.setQuantity(productToSell, -quantityToSell);
 
             Bill bill = new Bill();
+            // mutex.lock();
             double price = inventory.getPrice(productToSell);
             bill.addTransaction(productToSell, price, quantityToSell);
 
@@ -119,6 +122,7 @@ public class Main {
 
             // Update earnings
             inventory.addEarnings(price * quantityToSell);
+            // mutex.unlock();
 
         } finally {
             mutex.unlock();

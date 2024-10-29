@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ed0d81a-07ec-4876-bcf7-8e07c50cb74a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Lab 2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Lab 2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab 1/src/main/java/InventoryCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab 1/src/main/java/InventoryCheck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab 1/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab 1/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lab 2/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab 2/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lab 2/ScalarProduct$Consumer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab 2/ScalarProduct$Consumer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lab 2/ScalarProduct$Producer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab 2/ScalarProduct$Producer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lab 2/ScalarProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab 2/ScalarProduct.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +64,8 @@
       <updated>1730069130636</updated>
       <workItem from="1730069132888" duration="4583000" />
       <workItem from="1730105310861" duration="706000" />
+      <workItem from="1730111190992" duration="984000" />
+      <workItem from="1730114437355" duration="38000" />
     </task>
     <servers />
   </component>
