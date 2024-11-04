@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ed0d81a-07ec-4876-bcf7-8e07c50cb74a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ScalarProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/ScalarProduct.java" afterDir="false" />
-    </list>
+    <list default="true" id="5ed0d81a-07ec-4876-bcf7-8e07c50cb74a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,7 +57,7 @@
       <workItem from="1730105310861" duration="706000" />
       <workItem from="1730111190992" duration="984000" />
       <workItem from="1730114437355" duration="38000" />
-      <workItem from="1730712935851" duration="677000" />
+      <workItem from="1730712935851" duration="967000" />
     </task>
     <servers />
   </component>
