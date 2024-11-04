@@ -10,7 +10,7 @@ public class ScalarProduct {
     private static final ArrayList<Integer> vectorA = new ArrayList<>();
     private static final ArrayList<Integer> vectorB = new ArrayList<>();
     private static int product = 0;
-    private static boolean available = false; // flag to indicate if product is available
+    private static boolean available = false; // flag to indicate if a product is available
     private static int scalarProductSum = 0;
 
     // Mutex and condition variable for synchronization
@@ -26,13 +26,11 @@ public class ScalarProduct {
                         // Wait until the product is consumed by consumer
                         condition.await();
                     }
-                    // Compute the product of corresponding elements
+
                     product = vectorA.get(i) * vectorB.get(i);
                     System.out.println("Producer computed: " + vectorA.get(i) + " * " + vectorB.get(i) + " = " + product);
 
-                    // Product is now available
                     available = true;
-                    // Signal the consumer thread
                     condition.signal();
 
                 } catch (InterruptedException e) {
@@ -53,13 +51,11 @@ public class ScalarProduct {
                         // Wait until a product is available from producer
                         condition.await();
                     }
-                    // Consume the product and sum it
+
                     scalarProductSum += product;
                     System.out.println("Consumer added product: " + product + ", total sum = " + scalarProductSum);
 
-                    // Mark product as consumed
                     available = false;
-                    // Signal the producer thread
                     condition.signal();
 
                 } catch (InterruptedException e) {
