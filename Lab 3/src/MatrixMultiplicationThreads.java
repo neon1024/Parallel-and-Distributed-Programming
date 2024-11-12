@@ -3,12 +3,17 @@ import java.util.Scanner;
 public class MatrixMultiplicationThreads {
 
     public static void main(String[] args) throws InterruptedException {
-        int matrixSize = 9;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Matrix size: ");
+
+        int matrixSize = scanner.nextInt();
+
         int[][] matrixA = new int[matrixSize][matrixSize];
         int[][] matrixB = new int[matrixSize][matrixSize];
         int[][] result = new int[matrixSize][matrixSize];
 
-        // Initialize the matrices
+        // Initialize the matrices with sample data
         for (int i = 0; i < matrixSize; i++) {
             for (int j = 0; j < matrixSize; j++) {
                 matrixA[i][j] = 1;
@@ -17,8 +22,6 @@ public class MatrixMultiplicationThreads {
         }
 
         System.out.print("Number of threads: ");
-
-        Scanner scanner = new Scanner(System.in);
 
         int numberOfThreads = scanner.nextInt();
 
@@ -34,6 +37,7 @@ public class MatrixMultiplicationThreads {
         // Start timer
         long startTime = System.nanoTime();
 
+        // Create and execute the threads
         for (int i = 0; i < numberOfThreads; i++) {
             int endIndex = startIndex + elementsPerThread;
             if (i == numberOfThreads - 1) {
