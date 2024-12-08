@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Coding Spaces\\UBB\\Parallel-and-Distributed-Programming\\Lab 4\\Lab 4.csproj": {}
+    "D:\\Coding Spaces\\UBB\\Parallel-and-Distributed-Programming\\Lab 4\\Lab 4.csproj": {}
   },
   "projects": {
-    "C:\\Coding Spaces\\UBB\\Parallel-and-Distributed-Programming\\Lab 4\\Lab 4.csproj": {
+    "D:\\Coding Spaces\\UBB\\Parallel-and-Distributed-Programming\\Lab 4\\Lab 4.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Coding Spaces\\UBB\\Parallel-and-Distributed-Programming\\Lab 4\\Lab 4.csproj",
+        "projectUniqueName": "D:\\Coding Spaces\\UBB\\Parallel-and-Distributed-Programming\\Lab 4\\Lab 4.csproj",
         "projectName": "Lab 4",
-        "projectPath": "C:\\Coding Spaces\\UBB\\Parallel-and-Distributed-Programming\\Lab 4\\Lab 4.csproj",
+        "projectPath": "D:\\Coding Spaces\\UBB\\Parallel-and-Distributed-Programming\\Lab 4\\Lab 4.csproj",
         "packagesPath": "C:\\Users\\rober\\.nuget\\packages\\",
-        "outputPath": "C:\\Coding Spaces\\UBB\\Parallel-and-Distributed-Programming\\Lab 4\\obj\\",
+        "outputPath": "D:\\Coding Spaces\\UBB\\Parallel-and-Distributed-Programming\\Lab 4\\obj\\",
         "projectStyle": "PackageReference",
         "UsingMicrosoftNETSdk": false,
         "fallbackFolders": [
@@ -26,8 +26,8 @@
           "net9.0"
         ],
         "sources": {
-          "C:\\Coding Spaces\\UBB\\Business-Processes-Automation\\Labs\\Lab 3\\Success Messages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "D:\\Coding Spaces\\UBB\\Business-Processes-Automation\\Labs\\Lab 3\\Success Messages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
