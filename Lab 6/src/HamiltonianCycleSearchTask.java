@@ -5,7 +5,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 
-public class HamiltonianCycleSearchTask implements Runnable{
+public class HamiltonianCycleSearchTask implements Runnable {
     private final List<List<Integer>> graph;
     private final int startingNode;
     private final AtomicBoolean foundHamiltonianCycle;
@@ -29,38 +29,48 @@ public class HamiltonianCycleSearchTask implements Runnable{
     }
 
     private void foundCycle(){
-        this.possiblePath.add(this.startingNode);
         this.foundHamiltonianCycle.set(true);
 
         this.lock.lock();
+        this.possiblePath.add(this.startingNode);
         this.output.clear();
         this.output.addAll(this.possiblePath);
         this.lock.unlock();
     }
 
     private void goToNode(int nextNode){
-        if(foundHamiltonianCycle.get()){
+        // stop if cycle is already found
+        if (foundHamiltonianCycle.get()) {
             return;
         }
 
         this.possiblePath.add(nextNode);
         this.visited.set(nextNode, true);
 
-        // base case: we found a solution
-        // we can reach the first node from the current node and the pathCount is equal to the number of nodes
-        if(this.possiblePath.size() == this.graph.size()){
-            if(this.graph.get(nextNode).contains(this.startingNode)){
+        // base case: check if we visited all nodes and can return to the start node
+        // we check the current path excluding the final node which is the starting node
+        if (this.possiblePath.size() == this.graph.size()) {
+            if (this.graph.get(nextNode).contains(this.startingNode)) {
                 this.foundCycle();
+                return;
             }
-        }
-        else {
-            for(Integer outboundNeighbour: this.graph.get(nextNode)){
-                if(!this.visited.get(outboundNeighbour)){
+        } else {
+            // recursive case: explore neighbors
+            for (Integer outboundNeighbour : this.graph.get(nextNode)) {
+                if (!this.visited.get(outboundNeighbour)) {
                     this.goToNode(outboundNeighbour);
-                    return;
+
+                    // exit early if a cycle is found
+                    if (foundHamiltonianCycle.get()) {
+                        return;
+                    }
                 }
             }
         }
+
+        // backtrack: remove the current node and mark it as unvisited
+        this.possiblePath.remove(this.possiblePath.size() - 1);
+        this.visited.set(nextNode, false);
     }
 
     @Override
