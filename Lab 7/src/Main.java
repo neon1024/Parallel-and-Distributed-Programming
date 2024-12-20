@@ -6,14 +6,13 @@ public class Main {
     static final String IMPLEMENTATION = "karatsuba";
 
     public static void master(Polynomial p1, Polynomial p2, int processes){
-        long startTime = System.nanoTime();
         int length = p1.getSize() / (processes - 1);
-
-
-        // Here we split the coefficients of the polynomials on processes
-
         int start;
         int end = 0;
+
+        long startTime = System.nanoTime();
+
+        // Here we split the coefficients of the polynomials on processes
         for (int i = 1; i  < processes; i++){
             start = end;
             end = start + length;
@@ -28,6 +27,7 @@ public class Main {
         }
 
         Object[] results = new Object[processes - 1];
+
         for (int i = 1; i  < processes; i++){
             MPI.COMM_WORLD.Recv(results, i - 1, 1, MPI.OBJECT, i, 0);
         }
@@ -36,6 +36,7 @@ public class Main {
 
         long endTime = System.nanoTime();
         double time = (endTime - startTime) / 1000000000.0;
+
         System.out.println(IMPLEMENTATION + ":\n");
         System.out.println("Execution time: " + time);
         System.out.println(result + "\n");
@@ -107,6 +108,7 @@ public class Main {
             if (IMPLEMENTATION.equalsIgnoreCase("regular")){
                 regularWorker(me);
             }
+
             if (IMPLEMENTATION.equalsIgnoreCase("karatsuba")){
                 karatsubaWorker(me);
             }

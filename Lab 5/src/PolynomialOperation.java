@@ -11,9 +11,6 @@ import java.util.stream.IntStream;
 
 
 public class PolynomialOperation {
-    public static final int OPTIM_DEGREE = 100;
-    public static final int OPTIM_DEGREE_SIMPLE_MULT = 20;
-
     public static Polynomial multiplicationSequentialForm(Polynomial p1, Polynomial p2) {
         // initialize the coefficients with the resulted polynomial with 0
         int sizeOfResultCoefficientList = p1.getDegree() + p2.getDegree() + 1;
@@ -185,7 +182,6 @@ public class PolynomialOperation {
         addRemainingCoefficients(p1, p2, minDegree, maxDegree, coefficients);
 
         // remove coefficients starting from the biggest power if coefficient is 0
-
         int i = coefficients.size() - 1;
         while (coefficients.get(i) == 0 && i > 0) {
             coefficients.remove(i);

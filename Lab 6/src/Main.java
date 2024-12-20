@@ -38,7 +38,7 @@ public class Main {
         }
     }
 
-    private static List<List<Integer>> loadGraph(String path) throws FileNotFoundException {
+    private static List<List<Integer>> loadGraph(String path) {
         List<List<Integer>> graph = new ArrayList<>();
 
         try(Scanner scanner = new Scanner(new File(path))) {
