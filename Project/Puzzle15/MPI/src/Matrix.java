@@ -37,7 +37,7 @@ public final class Matrix implements Serializable {
     public static Matrix fromFile() throws IOException {
         byte[][] tiles = new byte[4][4];
         int freeI = -1, freeJ = -1;
-        Scanner scanner = new Scanner(new BufferedReader(new FileReader("matrix.in")));
+        Scanner scanner = new Scanner(new BufferedReader(new FileReader("matrix.txt")));
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 tiles[i][j] = Integer.valueOf(scanner.nextInt()).byteValue();
