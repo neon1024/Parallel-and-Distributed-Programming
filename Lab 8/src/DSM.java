@@ -13,15 +13,11 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DSM {
-
     private Map<String, Set<Integer>> subscribers;
-
     private static final Lock lock = new ReentrantLock();
-
     private Map<String, Integer> variables;
-
-
-    public DSM(){
+    
+    public DSM() {
         this.variables = new HashMap<>();
         this.variables.put("first", 0);
         this.variables.put("second", 1);
@@ -32,13 +28,13 @@ public class DSM {
         this.subscribers.put("third", new HashSet<>());
     }
 
-    public void setVariable(String variable, int value){
+    public void setVariable(String variable, int value) {
         lock.lock();
         this.variables.put(variable, value);
         lock.unlock();
     }
 
-    public void updateVariable(String variable, int value){
+    public void updateVariable(String variable, int value) {
         this.setVariable(variable, value);
         this.sendMessageToSubscribers(variable, new UpdateMessage(variable, value));
     }
@@ -80,9 +76,8 @@ public class DSM {
         }
     }
 
-    public void sendMessageToAll(BaseMessage message){
-
-        for(int i = 0; i < MPI.COMM_WORLD.Size(); i++){
+    public void sendMessageToAll(BaseMessage message) {
+        for(int i = 0; i < MPI.COMM_WORLD.Size(); i++) {
             if(MPI.COMM_WORLD.Rank() == i && !(message instanceof CloseMessage))
                 continue;
 

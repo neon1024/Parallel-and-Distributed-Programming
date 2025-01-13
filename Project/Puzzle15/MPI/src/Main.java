@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         MPI.Init(args);
         int me = MPI.COMM_WORLD.Rank();
+
         if (me == 0) {
             // master process
             Matrix matrix = Matrix.fromFile();
@@ -17,6 +17,7 @@ public class Main {
             // worker process
             searchWorker();
         }
+
         MPI.Finalize();
     }
 
@@ -30,18 +31,20 @@ public class Main {
         // generate the starting configurations for the workers
         Queue<Matrix> q = new LinkedList<>();
         q.add(root);
+
         while (q.size() + q.peek().generateMoves().size() - 1 <= workers) {
             Matrix curr = q.poll();
+
             for (Matrix neighbour : curr.generateMoves()) {
                 q.add(neighbour);
             }
         }
 
         while (!found) {
-
             // send data to all workers
             Queue<Matrix> temp = new LinkedList<>();
             temp.addAll(q);
+
             for (int i = 0; i < q.size(); i++) {
                 // for each worker, send a "root"
                 Matrix curr = temp.poll();
@@ -58,6 +61,7 @@ public class Main {
 
             // check if any node found a solution
             int newMinBound = Integer.MAX_VALUE;
+
             for (int i = 0; i < q.size(); i++) {
                 Pair<Integer, Matrix> p = (Pair<Integer, Matrix>) pairs[i];
                 //System.out.println(p.toString());
@@ -96,10 +100,12 @@ public class Main {
             MPI.COMM_WORLD.Recv(end, 0, 1, MPI.BOOLEAN, 0, 0);
             MPI.COMM_WORLD.Recv(matrix, 0, 1, MPI.OBJECT, 0, 0);
             MPI.COMM_WORLD.Recv(bound, 0, 1, MPI.INT, 0, 0);
+
             if (end[0]) { // shut down when solution was found
                 //System.out.println("Node " + MPI.COMM_WORLD.Rank() + " is ending its execution");
                 return;
             }
+
             int minBound = bound[0];
             Matrix current = (Matrix) matrix[0];
             Pair<Integer, Matrix> result = search(current, current.getNumOfSteps(), minBound);
@@ -109,17 +115,22 @@ public class Main {
 
     public static Pair<Integer, Matrix> search(Matrix current, int numSteps, int bound) {
         int estimation = numSteps + current.getManhattan();
+
         if (estimation > bound) {
             return new Pair<>(estimation, current);
         }
+
         if (estimation > 80) {
             return new Pair<>(estimation, current);
         }
+
         if (current.getManhattan() == 0) {
             return new Pair<>(-1, current);
         }
+
         int min = Integer.MAX_VALUE;
         Matrix solution = null;
+
         for (Matrix next : current.generateMoves()) {
             Pair<Integer, Matrix> result = search(next, numSteps + 1, bound);
             int t = result.getFirst();
@@ -131,6 +142,7 @@ public class Main {
                 solution = result.getSecond();
             }
         }
+
         return new Pair<>(min, solution);
     }
 }

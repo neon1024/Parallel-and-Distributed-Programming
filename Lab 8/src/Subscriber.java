@@ -5,13 +5,10 @@ import Message.UpdateMessage;
 import mpi.MPI;
 
 public class Subscriber implements Runnable{
-
     private final DSM dsm;
-
     public Subscriber(DSM dsm){
         this.dsm = dsm;
     }
-
 
     @Override
     public void run() {

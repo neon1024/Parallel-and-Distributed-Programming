@@ -2,24 +2,19 @@ import java.io.*;
 import java.util.*;
 
 public final class Matrix implements Serializable {
-
     private static final int[] dx = new int[]{0, -1, 0, 1};
     private static final int[] dy = new int[]{-1, 0, 1, 0};
     private static final String[] movesStrings = new String[]{"left", "up", "right", "down"};
-
     private final byte[][] tiles;
-
     private final int numOfSteps;
     private final int freePosI;
     private final int freePosJ;
-
     private final Matrix previousState;
     private final int minSteps;
     private final int estimation;
     private final int manhattan;
     private final String move;
     private final int hashValue;
-
 
     public Matrix(byte[][] tiles, int freePosI, int freePosJ, int numOfSteps, Matrix previousState, String move) {
         this.tiles = tiles;
@@ -38,6 +33,7 @@ public final class Matrix implements Serializable {
         byte[][] tiles = new byte[4][4];
         int freeI = -1, freeJ = -1;
         Scanner scanner = new Scanner(new BufferedReader(new FileReader("matrix.txt")));
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 tiles[i][j] = Integer.valueOf(scanner.nextInt()).byteValue();
@@ -49,7 +45,6 @@ public final class Matrix implements Serializable {
         }
         return new Matrix(tiles, freeI, freeJ, 0, null, "");
     }
-
 
     public int manhattanDistance() {
         int s = 0;

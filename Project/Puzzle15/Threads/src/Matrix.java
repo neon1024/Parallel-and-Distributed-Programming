@@ -8,20 +8,16 @@ public final class Matrix {
     private static final int[] dx = new int[]{0, -1, 0, 1};
     private static final int[] dy = new int[]{-1, 0, 1, 0};
     private static final String[] movesStrings = new String[]{"left", "up", "right", "down"};
-
     private final byte[][] tiles;
-
     private final int numOfSteps;
     private final int freePosI;
     private final int freePosJ;
-
     private final Matrix previousState;
     private final int minSteps;
     private final int estimation;
     private final int manhattan;
     private final String move;
     private final int hashValue;
-
 
     public Matrix(byte[][] tiles, int freePosI, int freePosJ, int numOfSteps, Matrix previousState, String move) {
         this.tiles = tiles;
@@ -40,6 +36,7 @@ public final class Matrix {
         byte[][] tiles = new byte[4][4];
         int freeI = -1, freeJ = -1;
         Scanner scanner = new Scanner(new BufferedReader(new FileReader(new File("matrix.in"))));
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 tiles[i][j] = Integer.valueOf(scanner.nextInt()).byteValue();
@@ -49,12 +46,13 @@ public final class Matrix {
                 }
             }
         }
+
         return new Matrix(tiles, freeI, freeJ, 0, null, "");
     }
 
-
     public int manhattanDistance() {
         int s = 0;
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (tiles[i][j] != 0) {
@@ -64,18 +62,22 @@ public final class Matrix {
                 }
             }
         }
+
         return s;
     }
 
     public List<Matrix> generateMoves() {
         List<Matrix> moves = new ArrayList<>();
+
         for (int k = 0; k < 4; k++) {
             if (freePosI + dx[k] >= 0 && freePosI + dx[k] < 4 && freePosJ + dy[k] >= 0 && freePosJ + dy[k] < 4) {
                 int movedFreePosI = freePosI + dx[k];
                 int movedFreePosJ = freePosJ + dy[k];
+
                 if (previousState != null && movedFreePosI == previousState.freePosI && movedFreePosJ == previousState.freePosJ) {
                     continue;
                 }
+
                 byte[][] movedTiles = Arrays.stream(tiles)
                         .map(byte[]::clone)
                         .toArray(byte[][]::new);
@@ -83,7 +85,6 @@ public final class Matrix {
                 movedTiles[movedFreePosI][movedFreePosJ] = 0;
 
                 moves.add(new Matrix(movedTiles, movedFreePosI, movedFreePosJ, numOfSteps + 1, this, movesStrings[k]));
-
             }
         }
         return moves;
@@ -93,6 +94,7 @@ public final class Matrix {
     public String toString() {
         Matrix current = this;
         List<String> strings = new ArrayList<>();
+
         while (current != null) {
             StringBuilder sb = new StringBuilder();
             sb.append("\n");
@@ -103,7 +105,9 @@ public final class Matrix {
             strings.add(sb.toString());
             current = current.previousState;
         }
+
         Collections.reverse(strings);
+
         return "Moves{" +
                 String.join("", strings) +
                 "numOfSteps=" + numOfSteps +
@@ -126,12 +130,13 @@ public final class Matrix {
         return hashValue;
     }
 
-
     private int hashCodeFake() {
         int result = 0;
+
         for (int i = 0; i < 4; i++) {
             result += Arrays.hashCode(tiles[i]);
         }
+
         return result;
     }
 
